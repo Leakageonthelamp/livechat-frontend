@@ -33,6 +33,7 @@ export const initLivechat = () => {
             },
             init: function() {
                 var n = t.createElement('script')
+                // n.addEventListener('load', this.chatLoaded.bind(this));
                 ;(n.async = !0),
                     (n.type = 'text/javascript'),
                     (n.src = 'https://cdn.livechatinc.com/tracking.js'),
@@ -41,8 +42,18 @@ export const initLivechat = () => {
         }
         !n.__lc.asyncInit && e.init(),
             (n.LiveChatWidget = n.LiveChatWidget || e)
+        function onReady(initialData) {
+            var customerData = initialData.customerData
+            if(customerData.status == 'browsing') {
+                // let setCustomize = document.getElementById('chat-widget-container').contentDocument.getElementById('Linkify');
+                  console.log(11, document.getElementById('chat-widget').contentWindow.document.body)
+            }
+
+        }
+              
         n.LiveChatWidget.call('set_customer_name', 'John Doe')
         n.LiveChatWidget.call('set_customer_email', 'john@example.com')
-        n.LiveChatWidget.call('set_customer_group_chooser', 2)
+        n.LiveChatWidget.on('ready', onReady)
+        
     })(window, document, [].slice)
 }
